@@ -61,7 +61,8 @@ namespace EComJwtCrud.Application.Services
             return new LoginResponseDto
             {
                 Username = username,
-                Token = token,
+                AccessToken = token,
+                UserId=user.Id
             };
         }
 
@@ -92,14 +93,14 @@ namespace EComJwtCrud.Application.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-
         private (byte[] hash, byte[] salt) PasswordHasher(string password)
         {
-            using var hmac = new HMACSHA512(); // generates unique salt
+            using var hmac = new HMACSHA512();
             var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             var salt = hmac.Key;
             return (hash, salt);
         }
+
 
     }
 }

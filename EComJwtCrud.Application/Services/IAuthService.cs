@@ -1,10 +1,6 @@
 ﻿using EComJwtCrud.Application.DTOs;
 using EComJwtCrud.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace EComJwtCrud.Application.Services
 {
@@ -14,6 +10,7 @@ namespace EComJwtCrud.Application.Services
         Task<LoginResponseDto>  LoginAsync(string username, string password);
 
         string GenerateJwtToken(User user);
+
 
 
     }

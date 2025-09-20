@@ -8,7 +8,8 @@ namespace EComJwtCrud.Application.DTOs
 {
     public class LoginResponseDto
     {
-        public string Token { get; set; }
+        public string AccessToken { get; set; }
         public string Username { get; set; }
+        public int UserId { get; set; }
     }
 }
