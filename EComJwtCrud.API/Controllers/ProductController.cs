@@ -1,4 +1,5 @@
-﻿using EComJwtCrud.Application.DTOs;
+﻿using EComJwtCrud.API.Filters;
+using EComJwtCrud.Application.DTOs;
 using EComJwtCrud.Application.Services;
 using EComJwtCrud.Domain.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ namespace EComJwtCrud.API.Controllers
 {
 
     [ApiController]
+    [JwtAuthorizationFilter]
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {

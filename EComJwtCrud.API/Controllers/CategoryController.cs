@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EComJwtCrud.API.Controllers
 {
     [ApiController]
+    [JwtAuthorizationFilter]
     [Route("api/[controller]")]
     //[JwtAuthorizationFilter]
     public class CategoryController : ControllerBase
