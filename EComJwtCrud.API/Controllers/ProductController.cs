@@ -43,13 +43,18 @@ namespace EComJwtCrud.API.Controllers
                 return ApiResponse<ProductResponse>.FailResponse(ex.Message, "Something went wrong");
             }
         }
-
         [HttpGet("GetAll")]
-        public async Task<ApiResponse<IEnumerable<ProductResponse>>> GetProductList()
+        public async Task<ApiResponse<IEnumerable<ProductResponse>>> GetProductList(
+            [FromQuery] int? categoryId,
+            [FromQuery] decimal? minPrice,
+            [FromQuery] decimal? maxPrice,
+            [FromQuery] int page = 1,
+            [FromQuery] int limit = 10)
         {
             try
             {
-                var productList= await _productService.GetAllProducts();
+                var productList = await _productService.GetAllProducts(categoryId, minPrice, maxPrice, page, limit);
+
                 return ApiResponse<IEnumerable<ProductResponse>>.SuccessResponse(productList, "Product List");
             }
             catch (Exception ex)
@@ -57,6 +62,7 @@ namespace EComJwtCrud.API.Controllers
                 return ApiResponse<IEnumerable<ProductResponse>>.FailResponse(ex.Message, "Something went wrong");
             }
         }
+
 
         [HttpPatch("Update")]
         public async Task<ApiResponse<Object>> UpdateProduct(UpdateProductDto updateProductDto)

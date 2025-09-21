@@ -10,7 +10,14 @@ namespace EComJwtCrud.Application.Services
         public Task<ProductResponse> GetProductById(int Id);
         public Task UpdateProduct(UpdateProductDto updateProductDto);
         public Task DeleteProductById(int Id);
-        public Task<IEnumerable<ProductResponse>> GetAllProducts();
+        public Task<IEnumerable<ProductResponse>> GetAllProducts(
+            int? categoryId = null,
+            decimal? minPrice = null,
+            decimal? maxPrice = null,
+            int page = 1,
+            int limit = 10
+        );
+
 
     }
 }

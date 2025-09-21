@@ -3,7 +3,6 @@ using EComJwtCrud.Domain.Interfaces;
 using EComJwtCrud.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace EComJwtCrud.Infrastructure.Repositories
 {
     public class ProductRepositoryImpl : IProductRepository
@@ -41,6 +40,11 @@ namespace EComJwtCrud.Infrastructure.Repositories
         {
             var affectedRow=await _context.Products.Where(p=>p.Id==Id).ExecuteDeleteAsync();
             return affectedRow > 0;
+        }
+
+        public IQueryable<Product> GetAllQueryableProducts()
+        {
+            return _context.Products.AsQueryable();
         }
     }
 }

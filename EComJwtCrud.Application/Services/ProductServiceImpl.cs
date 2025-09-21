@@ -1,6 +1,7 @@
 ﻿using EComJwtCrud.Application.DTOs;
 using EComJwtCrud.Domain.Entities;
 using EComJwtCrud.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace EComJwtCrud.Application.Services
                     Name = createProductDto.Name,
                     Description = createProductDto.Description,
                     Stock = createProductDto.Stock,
+                    Price = createProductDto.Price,
                     CategoryId = createProductDto.CategoryId,
                 };
 
@@ -69,6 +71,7 @@ namespace EComJwtCrud.Application.Services
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
+                Price = p.Price,
                 Stock = p.Stock,
                 Category=new CategoryProduct
                 {
@@ -77,6 +80,48 @@ namespace EComJwtCrud.Application.Services
                 }
             }).ToList();
         }
+
+        public async Task<IEnumerable<ProductResponse>> GetAllProducts(
+            int? categoryId = null,
+            decimal? minPrice = null,
+            decimal? maxPrice = null,
+            int page = 1,
+            int limit = 10)
+        {
+            var query = _productRepository.GetAllQueryableProducts();
+
+            if (categoryId.HasValue)
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+
+            if (minPrice.HasValue)
+                query = query.Where(p => p.Price >= minPrice.Value);
+
+            if (maxPrice.HasValue)
+                query = query.Where(p => p.Price <= maxPrice.Value);
+
+            query = query.Skip((page - 1) * limit).Take(limit);
+
+            var products = await query
+                .Select(p => new ProductResponse
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Stock = p.Stock,
+                    Category = new CategoryProduct
+                    {
+                        Id = p.CategoryId,
+                        Name = p.Category.Name 
+                    }
+                })
+                .ToListAsync();
+
+            if (!products.Any())
+                throw new Exception("Product list is empty");
+
+            return products;
+        }
+
 
         public async Task<ProductResponse> GetProductById(int Id)
         {
@@ -113,6 +158,8 @@ namespace EComJwtCrud.Application.Services
             }
             product.Name = updateProductDto.Name;
             product.Description = updateProductDto.Description;
+            product.Price = updateProductDto.Price;
+            product.Stock = updateProductDto.Stock;
             product.CategoryId = categoryId;
 
              _unitOfWork.Product.UpdateProduct(product);

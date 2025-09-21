@@ -11,6 +11,8 @@ namespace EComJwtCrud.Domain.Interfaces
     {
         public Task<Product?> GetProductByIdAsync(int Id);
 
+        public IQueryable<Product> GetAllQueryableProducts();
+
         public Task AddProductAsync(Product product);
         public Task<IEnumerable<Product>> GetAllProductsAsync();
         public Task<bool> DeleteProductById(int Id);

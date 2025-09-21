@@ -15,6 +15,8 @@ namespace EComJwtCrud.Application.DTOs
         [Required]
         public string Description { get; set; }
         [Required]
+        public int Price { get; set; }
+        [Required]
         public int Stock { get; set; }
         public string? ImageUrl { get; set; }
         [Required]
